@@ -41,7 +41,7 @@ export function renderOrderSummary() {
           ${machingProduct.name}
           </div>
           <div class="product-price">
-          ${formatCurrency(machingProduct.priceCents)}
+          ${machingProduct.getPrice()}
           </div>
           <div class="product-quantity
           js-product-quantity-${machingProduct.id}">
