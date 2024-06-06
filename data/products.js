@@ -68,6 +68,9 @@ export function loadProductsFetch() {
         return new Product(productDetails);
       });
       console.log("lode products");
+    })
+    .catch((error) => {
+      console.log(`Unexpected error. ${error}. Please try again later.`);
     });
   return promise;
 }
