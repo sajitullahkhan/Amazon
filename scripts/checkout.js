@@ -1,17 +1,14 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
-import { loadProducts, loadProductsFetch } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart-class.js";
 
 async function loadPage() {
   try {
     await loadProductsFetch();
 
-    await new Promise((resolve) => {
-      loadCart(() => {
-        resolve();
-      });
-    });
+    await loadCart(); /*This is a demo There is no actual card in the backend.
+    The backend only sends "load cart" as a response*/
   } catch (error) {
     console.log(`Unexpected error. ${error}. Please try again later.`);
   }
@@ -20,41 +17,3 @@ async function loadPage() {
   renderPaymentSummary();
 }
 loadPage();
-
-// Promise.all([
-//   loadProductsFetch(),
-//   new Promise((resolve) => {
-//     loadCart(() => {
-//       resolve();
-//     });
-//   }),
-// ]).then((values) => {
-//   console.log(values);
-//   renderOrderSummary();
-//   renderPaymentSummary();
-// });
-
-// new Promise((resolve) => {
-//   loadProducts(() => {
-//     resolve("value1");
-//   });
-// })
-//   .then((value) => {
-//     console.log(value);
-//     return new Promise((resolve) => {
-//       loadCart(() => {
-//         resolve();
-//       });
-//     });
-//   })
-//   .then(() => {
-//     renderOrderSummary();
-//     renderPaymentSummary();
-//   });
-
-// loadProducts(() => {
-//   loadCart(() => {
-//     renderOrderSummary();
-//     renderPaymentSummary();
-//   });
-// });
