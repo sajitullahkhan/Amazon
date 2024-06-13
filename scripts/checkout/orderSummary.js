@@ -120,6 +120,9 @@ export function renderOrderSummary() {
       container.remove();
 
       renderPaymentSummary();
+      document.querySelector(
+        ".js-checkout-items"
+      ).innerHTML = `${updateCartQuantity()} items`;
     });
   });
 

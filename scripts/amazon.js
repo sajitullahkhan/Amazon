@@ -3,6 +3,7 @@ import { products, loadProductsFetch } from "../data/products.js";
 
 async function renderProductsGrid() {
   await loadProductsFetch();
+
   let productsHTML = "";
 
   products.forEach((product) => {
@@ -30,17 +31,12 @@ async function renderProductsGrid() {
         </div>
 
         <div class="product-quantity-container">
-        <select>
-            <option selected value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+        <select class="js-quantity-option">
+            ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => {
+              return `<option ${
+                i === 1 ? "selected" : ""
+              } value="${i}">${i}</option>`;
+            })}
         </select>
         </div>
 
@@ -62,15 +58,18 @@ async function renderProductsGrid() {
   });
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-  console.log(updateCartQuantity());
+  document.querySelectorAll(".product-container").forEach((container) => {
+    let num = 0;
+    container.addEventListener("click", (event) => {
+      if (event.target.classList.value === "js-quantity-option") {
+        num = Number(event.target.value);
+      } else if (event.target.classList[2] === "js-add-to-cart") {
+        const productId = event.target.dataset.productId;
 
-  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-    button.addEventListener("click", () => {
-      const productId = button.dataset.productId;
-
-      cart.addToCart(productId);
-      document.querySelector(".js-cart-quantity").innerHTML =
-        updateCartQuantity();
+        cart.addToCart(productId, num);
+        document.querySelector(".js-cart-quantity").innerHTML =
+          updateCartQuantity();
+      }
     });
   });
   document.querySelector(".js-cart-quantity").innerHTML = updateCartQuantity();
