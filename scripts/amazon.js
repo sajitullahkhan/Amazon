@@ -27,7 +27,7 @@ async function renderProductsGrid() {
         </div>
 
         <div class="product-price">
-        $${product.getPrice()}
+        ${product.getPrice()}
         </div>
 
         <div class="product-quantity-container">
