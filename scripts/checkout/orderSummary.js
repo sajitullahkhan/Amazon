@@ -51,14 +51,21 @@ export function renderOrderSummary() {
             <span>
               Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
-              Update
-            </span>
-            <span class="delete-quantity-link link-primary js-delete-link 
-            js-delete-link-${machingProduct.id}"
-            data-product-id = "${machingProduct.id}">
-              Delete
-            </span>
+            <div class="update-delete">
+              <span class="update-quantity-link link-primary js-update-link" 
+              data-product-id = "${machingProduct.id}">
+                Update
+                </span>
+                <span class="delete-quantity-link link-primary js-delete-link 
+                js-delete-link-${machingProduct.id}"
+                data-product-id = "${machingProduct.id}">
+                Delete
+                </span>
+            </div>
+              <div class="editing-quantity link-primary display">
+                <input class="quantity-input" value="${cartItem.quantity}">
+                <span class="save-quantity link-primary">Save</span>
+              </div>
           </div>
         </div>
 
@@ -109,6 +116,23 @@ export function renderOrderSummary() {
   }
 
   document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+
+  document.querySelectorAll(".js-update-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const productId = link.dataset.productId;
+      document.querySelector(".update-delete").classList.add("display");
+      document.querySelector(".editing-quantity").classList.remove("display");
+      document.querySelector(".save-quantity").addEventListener("click", () => {
+        const editedValue = Number(
+          document.querySelector(".quantity-input").value
+        );
+        cart.removeFromCart(productId);
+        cart.addToCart(productId, editedValue);
+        renderPaymentSummary();
+        renderOrderSummary();
+      });
+    });
+  });
 
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {

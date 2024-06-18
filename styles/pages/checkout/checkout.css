@@ -119,6 +119,10 @@
   margin-left: 3px;
 }
 
+.product-quantity {
+  display: flex;
+}
+
 @media (max-width: 1000px) {
   .delivery-options {
     /* grid-column: 1 means this element will be placed
@@ -208,4 +212,11 @@
 
   margin-top: 11px;
   margin-bottom: 15px;
+}
+.quantity-input {
+  width: 40px;
+}
+
+.display {
+  display: none;
 }
