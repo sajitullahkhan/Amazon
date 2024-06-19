@@ -49,23 +49,24 @@ export function renderOrderSummary() {
           <div class="product-quantity
           js-product-quantity-${machingProduct.id}">
             <span>
-              Quantity: <span class="quantity-label">${cartItem.quantity}</span>
-            </span>
-            <div class="update-delete">
+              Quantity: <span class="quantity-label updating-quantity">${
+                cartItem.quantity
+              }
               <span class="update-quantity-link link-primary js-update-link" 
-              data-product-id = "${machingProduct.id}">
-                Update
-                </span>
-                <span class="delete-quantity-link link-primary js-delete-link 
+                data-product-id = "${machingProduct.id}">
+                  Update
+              </span>
+              </span>
+            </span>
+          <div class="editing-quantity link-primary display">
+            <input class="quantity-input" value="${cartItem.quantity}">
+            <span class="save-quantity link-primary">Save</span>
+          </div>
+              <span class="delete-quantity-link link-primary js-delete-link 
                 js-delete-link-${machingProduct.id}"
                 data-product-id = "${machingProduct.id}">
                 Delete
-                </span>
-            </div>
-              <div class="editing-quantity link-primary display">
-                <input class="quantity-input" value="${cartItem.quantity}">
-                <span class="save-quantity link-primary">Save</span>
-              </div>
+              </span>
           </div>
         </div>
 
@@ -120,16 +121,34 @@ export function renderOrderSummary() {
   document.querySelectorAll(".js-update-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
-      document.querySelector(".update-delete").classList.add("display");
-      document.querySelector(".editing-quantity").classList.remove("display");
-      document.querySelector(".save-quantity").addEventListener("click", () => {
+      const parent = link.closest(".cart-item-container");
+      parent.querySelector(".updating-quantity").classList.add("display");
+      parent.querySelector(".editing-quantity").classList.remove("display");
+      // this part is for Focusing in the input automatically(
+      parent.querySelector(".quantity-input").focus();
+      const value = parent.querySelector(".quantity-input").value;
+      parent.querySelector(".quantity-input").value = "";
+      parent.querySelector(".quantity-input").value = value;
+      //)
+      parent.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const editedValue = Number(
+            parent.querySelector(".quantity-input").value
+          );
+          cart.removeFromCart(productId);
+          cart.addToCart(productId, editedValue);
+          renderOrderSummary();
+          renderPaymentSummary();
+        }
+      });
+      parent.querySelector(".save-quantity").addEventListener("click", () => {
         const editedValue = Number(
-          document.querySelector(".quantity-input").value
+          parent.querySelector(".quantity-input").value
         );
         cart.removeFromCart(productId);
         cart.addToCart(productId, editedValue);
-        renderPaymentSummary();
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
   });
