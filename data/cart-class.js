@@ -1,4 +1,3 @@
-// import { num } from "../scripts/amazon.js";
 class Cart {
   cartItems;
   #localStorageKey;
