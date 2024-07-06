@@ -81,7 +81,7 @@ export function renderPaymentSummary() {
           const order = await response.json();
           addOrder(order);
         } catch (error) {
-          console.log(`Unexpected error. ${error}. Please try again later.`);
+          console.log(`Unexpected error- ${error}. Please try again later.`);
         }
 
         window.location.href = "orders.html";

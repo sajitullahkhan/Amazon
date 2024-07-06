@@ -3,10 +3,13 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct } from "../data/products.js";
 import { loadProductsFetch } from "../data/products.js";
+import { updateCartQuantity } from "../data/cart-class.js";
 
 export async function renderOrders() {
+  document.querySelector(".cart-quantity").innerHTML = updateCartQuantity();
   await loadProductsFetch();
   let html = "";
+
   orders.forEach((data) => {
     const date = dayjs(data.orderTime);
     const formattedDate = date.format("dddd MMMM D");
@@ -38,17 +41,18 @@ export async function renderOrders() {
           `;
     document.querySelector(".orders-grid").innerHTML = html;
     orderedItem(data);
+    console.log(data);
   });
 }
 renderOrders();
 
 function orderedItem(data) {
-  let html = "";
-  console.log(data);
+  let orderedItemHTML = "";
 
   data.products.forEach((productData) => {
     const product = getProduct(productData.productId);
-    html += `
+    console.log(product.name);
+    orderedItemHTML += `
     <div class="product-image-container">
       <img src="${product.image}" />
     </div>
@@ -73,6 +77,6 @@ function orderedItem(data) {
       </a>
     </div>
     `;
-    document.querySelector(".order-details-grid").innerHTML = html;
+    document.querySelector(".order-details-grid").innerHTML = orderedItemHTML;
   });
 }
