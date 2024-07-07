@@ -84,7 +84,7 @@ export function renderPaymentSummary() {
           console.log(`Unexpected error- ${error}. Please try again later.`);
         }
 
-        window.location.href = "orders.html";
+        // window.location.href = "orders.html";
       } else {
         alert("You don't have any Product😥");
       }
