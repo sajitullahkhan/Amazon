@@ -38,33 +38,22 @@ class Product {
   }
 }
 
-class Clothing extends Product {
-  sizeChartLink;
-
-  constructor(productDetails) {
-    super(productDetails);
-    this.sizeChartLink = productDetails.sizeChartLink;
-  }
-
-  extraInfoHTML() {
-    return `
-    <a href="${this.sizeChartLink}" target="_blank">Size chart</a>
-    `;
-  }
-}
-
 export let products = [];
 
 export async function loadProductsFetch() {
   try {
     const promise = await fetch("https://supersimplebackend.dev/products");
     const productData = await promise.json();
-    products = productData.map((productDetails) => {
-      if (productDetails.type === "clothing") {
-        return new Clothing(productDetails);
-      }
-      return new Product(productDetails);
-    });
+    const haram = [
+      "5968897c-4d27-4872-89f6-5bcb052746d7",
+      "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
+      "a45cfa0a-66d6-4dc7-9475-e2b01595f7d7",
+    ];
+    products = productData
+      .filter((p) => !haram.includes(p.id))
+      .map((productDetails) => {
+        return new Product(productDetails);
+      });
   } catch (error) {
     console.log(`Unexpected error. ${error}. Please try again later.`);
   }
