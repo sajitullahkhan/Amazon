@@ -48,9 +48,10 @@ export async function loadProductsFetch() {
       "5968897c-4d27-4872-89f6-5bcb052746d7",
       "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
       "a45cfa0a-66d6-4dc7-9475-e2b01595f7d7",
+      "82bb68d7-ebc9-476a-989c-c78a40ee5cd9",
     ];
     products = productData
-      .filter((p) => !haram.includes(p.id))
+      .filter((product) => !haram.includes(product.id))
       .map((productDetails) => {
         return new Product(productDetails);
       });
