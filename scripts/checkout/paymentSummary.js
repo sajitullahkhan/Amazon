@@ -2,7 +2,7 @@ import { cart, updateCartQuantity } from "../../data/cart-class.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOption.js";
 import { formatCurrency } from "../utils/money.js";
-import { addOrder } from "../../data/place-orders.js";
+import { addOrder, orders } from "../../data/place-orders.js";
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -80,11 +80,21 @@ export function renderPaymentSummary() {
 
           const order = await response.json();
           addOrder(order);
+
+          order.products.forEach((data) => {
+            cart.removeFromCart(data.productId);
+          });
+          let removeItems = document.querySelectorAll(
+            ".js-cart-item-container"
+          );
+          removeItems.forEach((item) => {
+            item.remove();
+          });
         } catch (error) {
           console.log(`Unexpected error- ${error}. Please try again later.`);
         }
 
-        // window.location.href = "orders.html";
+        window.location.href = "orders.html";
       } else {
         alert("You don't have any Product😥");
       }

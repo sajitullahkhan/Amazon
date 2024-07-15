@@ -34,14 +34,13 @@ export async function renderOrders() {
           </div>
           <div class="order-details-grid">
           
+          ${orderedItem(data)}
           
           
           </div>
           </div>
           `;
     document.querySelector(".orders-grid").innerHTML = html;
-    orderedItem(data);
-    console.log(data);
   });
 }
 renderOrders();
@@ -51,7 +50,7 @@ function orderedItem(data) {
 
   data.products.forEach((productData) => {
     const product = getProduct(productData.productId);
-    console.log(product.name);
+
     orderedItemHTML += `
     <div class="product-image-container">
       <img src="${product.image}" />
@@ -77,6 +76,6 @@ function orderedItem(data) {
       </a>
     </div>
     `;
-    document.querySelector(".order-details-grid").innerHTML = orderedItemHTML;
   });
+  return orderedItemHTML;
 }
