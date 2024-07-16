@@ -62,15 +62,14 @@ function orderedItem(data) {
       </div>
       <div class="product-delivery-date">Arriving on: August 15</div>
       <div class="product-quantity">Quantity: ${productData.quantity}</div>
-      <button class="buy-again-button button-primary">
-        <img class="buy-again-icon" src="images/icons/buy-again.png" />
-        <span class="buy-again-message">Buy it again</span>
+      <button class="cancel-order-button button-secondary">
+        <span>Cancel order</span>
       </button>
     </div>
 
     <div class="product-actions">
       <a href="tracking.html">
-        <button class="track-package-button button-secondary">
+        <button class="track-package-button button-primary">
           Track package
         </button>
       </a>
