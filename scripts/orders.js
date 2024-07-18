@@ -9,37 +9,36 @@ export async function renderOrders() {
   document.querySelector(".cart-quantity").innerHTML = updateCartQuantity();
   await loadProductsFetch();
   let html = "";
+  console.log(orders);
 
   orders.forEach((data) => {
     const date = dayjs(data.orderTime);
     const formattedDate = date.format("dddd MMMM D");
-    html += `
-    <div class="order-container">
-          <div class="order-header">
-            <div class="order-header-left-section">
-              <div class="order-date">
-                <div class="order-header-label">Order Placed:</div>
-                <div>${formattedDate}</div>
-              </div>
-              <div class="order-total">
-                <div class="order-header-label">Total:</div>
-                <div>$${formatCurrency(data.totalCostCents)}</div>
-              </div>
-            </div>
 
-            <div class="order-header-right-section">
-              <div class="order-header-label">Order ID:</div>
-              <div>${data.id}</div>
+    html += `
+      <div class="order-container">
+        <div class="order-header">
+          <div class="order-header-left-section">
+            <div class="order-date">
+              <div class="order-header-label">Order Placed:</div>
+              <div>${formattedDate}</div>
+            </div>
+            <div class="order-total">
+              <div class="order-header-label">Total:</div>
+              <div>$${formatCurrency(data.totalCostCents)}</div>
             </div>
           </div>
-          <div class="order-details-grid">
-          
-          ${orderedItem(data)}
-          
-          
+
+          <div class="order-header-right-section">
+            <div class="order-header-label">Order ID:</div>
+            <div>${data.id}</div>
           </div>
-          </div>
-          `;
+        </div>
+        <div class="order-details-grid">
+        ${orderedItem(data)}
+        </div>
+      </div>
+    `;
     document.querySelector(".orders-grid").innerHTML = html;
   });
 }
@@ -49,6 +48,9 @@ function orderedItem(data) {
   let orderedItemHTML = "";
 
   data.products.forEach((productData) => {
+    const date = dayjs(productData.estimatedDeliveryTime);
+    const formattedDate = date.format("MMMM D");
+
     const product = getProduct(productData.productId);
 
     orderedItemHTML += `
@@ -60,13 +62,13 @@ function orderedItem(data) {
       <div class="product-name">
         ${product.name}
       </div>
-      <div class="product-delivery-date">Arriving on: August 15</div>
+      <div class="product-delivery-date">Arriving on: ${formattedDate}</div>
       <div class="product-quantity">Quantity: ${productData.quantity}</div>
       
     </div>
 
     <div class="product-actions">
-      <a href="tracking.html">
+      <a href="tracking.html?productId=${product.id}&arrivingDate=${formattedDate}&quantity=${productData.quantity}">
         <button class="track-package-button button-primary">
           Track package
         </button>
