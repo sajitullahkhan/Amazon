@@ -1,5 +1,5 @@
-import { updateCartQuantity } from "../data/cart-class.js";
-import { getProduct, loadProductsFetch } from "../data/products.js";
+import { updateCartQuantity } from "./data/cart-class.js";
+import { getProduct, loadProductsFetch } from "./data/products.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 async function renderTrackingPage() {
@@ -51,16 +51,14 @@ renderTrackingPage();
 
 function startTracking(arrivingDate, startingDate) {
   const progressBar = document.querySelector(".progress-bar");
-  const oneDay = 24 * 60 * 60 * 1000;
   const startDate = new Date(startingDate);
   let endDate = new Date(arrivingDate);
 
   const initialProgress = calculateProgress(startDate, endDate);
-  console.log(initialProgress);
   updateProgressBar(progressBar, initialProgress);
 
   setInterval(() => {
-    const currentProgress = calculateProgress(today, arrivalDate);
+    const currentProgress = calculateProgress(startDate, endDate);
     updateProgressBar(progressBar, currentProgress);
   }, 1000 * 60);
 }

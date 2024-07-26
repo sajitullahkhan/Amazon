@@ -1,11 +1,8 @@
-import { cart, updateCartQuantity } from "../../data/cart-class.js";
-import { getProduct } from "../../data/products.js";
+import { cart, updateCartQuantity } from "../data/cart-class.js";
+import { getProduct } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import {
-  deliveryOptions,
-  getDeliveryOption,
-} from "../../data/deliveryOption.js";
+import { deliveryOptions, getDeliveryOption } from "../data/deliveryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
@@ -25,7 +22,7 @@ export function renderOrderSummary() {
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd, MMMM D");
+    const dateString = deliveryDate.format("dddd - D MMMM, YYYY");
 
     cartSummaryHTML += `
       <div class="cart-item-container js-cart-item-container js-cart-item-container-${
