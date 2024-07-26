@@ -13,7 +13,7 @@ export async function renderOrders() {
 
   orders.forEach((data) => {
     const date = dayjs(data.orderTime);
-    const formattedDate = date.format("dddd MMMM D");
+    const formattedOrderDate = date.format("dddd MMMM D, YYYY");
 
     html += `
       <div class="order-container">
@@ -21,7 +21,7 @@ export async function renderOrders() {
           <div class="order-header-left-section">
             <div class="order-date">
               <div class="order-header-label">Order Placed:</div>
-              <div>${formattedDate}</div>
+              <div>${formattedOrderDate}</div>
             </div>
             <div class="order-total">
               <div class="order-header-label">Total:</div>
@@ -35,7 +35,7 @@ export async function renderOrders() {
           </div>
         </div>
         <div class="order-details-grid">
-        ${orderedItem(data)}
+        ${orderedItem(data, formattedOrderDate)}
         </div>
       </div>
     `;
@@ -44,12 +44,12 @@ export async function renderOrders() {
 }
 renderOrders();
 
-function orderedItem(data) {
+function orderedItem(data, formattedOrderDate) {
   let orderedItemHTML = "";
 
   data.products.forEach((productData) => {
     const date = dayjs(productData.estimatedDeliveryTime);
-    const formattedDate = date.format("MMMM D");
+    const formattedDate = date.format("DD MMM, YYYY");
 
     const product = getProduct(productData.productId);
 
@@ -68,7 +68,7 @@ function orderedItem(data) {
     </div>
 
     <div class="product-actions">
-      <a href="tracking.html?productId=${product.id}&arrivingDate=${formattedDate}&quantity=${productData.quantity}">
+      <a href="tracking.html?productId=${product.id}&arrivingDate=${formattedDate}&quantity=${productData.quantity}&orderDate=${formattedOrderDate}">
         <button class="track-package-button button-primary">
           Track package
         </button>
